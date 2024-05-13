@@ -7,6 +7,7 @@ import Contact from './Contact'
 import Bolgs from './Bolgs'
 import BookDr from './BookDr'
 import FAQ from '../../components/FAQ'
+import AllDoctors from './AllDoctors/AllDoctors'
 export default function index() {
   return (
     <>
@@ -14,6 +15,7 @@ export default function index() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/contact' element={<Contact />} />
+        <Route path='/alldoctors' element={<AllDoctors/>} />
         <Route path='/blog' element={<Bolgs />} />
         <Route path=':doctorid' element={<BookDr />} />
       </Routes>

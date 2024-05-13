@@ -26,14 +26,13 @@ export default function Login() {
         setIsRegister(false);
         setFormData(formDataInitialState);
         // let data = jwtDecode(res.data.token.id)
+        // console.log("🚀 ~ file: Login.js:32 ~ .then ~ data:", data)
         // console.log("Token Payload : ", jwtDecode(res.data.token.id));
-        // console.log("Token Payload : ", jwtDecode(res.data.token.email));
-        dispatch({
-          type: "LOGIN",
-          payload: { user: jwtDecode(res.data.token.email) },
-        });
+        // console.log("Token Payload : ", jwtDecode(res.data.token.email)); 
+        dispatch({ type: "LOGIN", payload: { user: jwtDecode(res.data.token.email) } })
       })
-      .catch((error) => {});
+      .catch((error) => {
+      });
   };
 
   return (

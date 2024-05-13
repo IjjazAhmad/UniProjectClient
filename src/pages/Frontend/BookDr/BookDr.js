@@ -1,14 +1,42 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import 'react-calendar/dist/Calendar.css';
 
 import Calendar from 'react-calendar';
 import { DocImg } from '../../../assets/images/doctorCard'
 import { images } from '../../../assets/images/index'
 import axios from "axios";
+import { useParams } from 'react-router-dom';
 // --------------- react calender 
-
+const initialState ={
+  id: "",
+  email: "",
+  name: "",
+  phone:920000000 ,
+  speciallization: "",
+  education: " ",
+  fee:0
+}
 
 export default function BookDr() {
+  const {doctorid} = useParams()
+  const [singleDr, setSingleDr] = useState(initialState)
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    try {
+      axios
+      .get(`http://localhost:7000/doctors/${doctorid}`)
+      .then((response) => {
+        const doctorData = response.data
+        setSingleDr(doctorData.doctor);
+        setIsLoading(false);
+        
+      })
+    } catch (error) {
+      
+    }
+  }, []);
+
+
   const [isConfirm, setIsConfirm] = useState(true)
   const [value, onChange] = useState();
   const [selectedTime, setSelectedTime] = useState(''); // State to store the selected value
@@ -52,20 +80,18 @@ export default function BookDr() {
   // ------------------------------- 
   const handleBooking = () => {
     setIsConfirm(false);
-    let date = value;
-const formattedDate = date.toISOString().split('T')[0];
+    let dateValue = value;
+    // Assuming the server expects a YYYY-MM-DD format
+const formattedDate = dateValue.toString().split('T')[0];
 
-    let drId = "123";
-    const formData = { formattedDate, selectedTime, drId };
-    
-    axios.post("http://localhost:7000/appointment/addApoint", formData)
+  const drId = doctorid
+   const time = selectedTime 
+   const date = formattedDate
+
+    axios.post("http://localhost:7000/appointments/post",{ date, time, drId })
       .then((response) => {
-
-        console.log("Appointment added successfully!!");
-        console.log("Response data:", response.data);
       })
       .catch((error) => {
-        console.log("Error:", error);
       });
   };
   
@@ -84,8 +110,8 @@ const formattedDate = date.toISOString().split('T')[0];
                   <img src={DocImg.docter4} alt="Doctor image." />
                 </div>
                 <div className="imgDetail m-4">
-                  <h5>Camilla Wasif <span className='fs-6 ms-3'> ⭐ 4.9(250)</span></h5>
-                  <p className='fs-6' >Oncologist <br /><span className='text-body-tertiary '><i className="fa-solid fa-location-dot"></i> Henderson, Colorado</span> <br /><span className='text-danger fw-bold '>Consultancy Fee : $150</span></p>
+                  <h5>{singleDr.name}<span className='fs-6 ms-3'> ⭐ 4.9(250)</span></h5>
+                  <p className='fs-6' >{singleDr.speciallization} <br /><span className='text-body-tertiary '><i className="fa-solid fa-location-dot"></i> Henderson, Colorado</span> <br /><span className='text-danger fw-bold '>Consultancy Fee : ${singleDr.fee}</span></p>
                 </div>
               </div>
             </div>
@@ -185,7 +211,7 @@ const formattedDate = date.toISOString().split('T')[0];
             <div className="row">
               <div className="col-12 col-md-6 col-lg-3 mt-3">
                 <ul>
-                  <li className='text-secondary fw-bold '>M.D</li>
+                  <li className='text-secondary fw-bold '>{singleDr.education}</li>
                   <li>2019</li>
                   <li>Oncology</li>
                   <li>Delhi Medical Institute</li>
