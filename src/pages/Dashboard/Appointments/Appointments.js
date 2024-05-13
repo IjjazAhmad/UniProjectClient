@@ -1,60 +1,72 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Doctors() {
-    const [AllDr, setAllDr] = useState([])
-    const [isLoading, setIsLoading] = useState(true);
-    useEffect(() => {
-        axios
-            .get("http://localhost:7000/appointment/appoints")
-            .then((response) => {
-                setAllDr(response.data);
-                setIsLoading(false);
-            })
-            .catch((error) => {
-                console.error("Error : ", error);
-            });
-    }, []);
-    return (
-        <>
-            <div className="container">
-                <div className="row my-3 cart">
-                    <div className="col">
-                        <div className="table-responsive border">
-                            <table className="table table-hover align-middle align-middle">
-                                <thead className='table-dark'>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Time</th>
-                                        <th scope="col">DATE</th>
-                                        <th scope="col">DR ID</th>
-                                        
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        AllDr.map((doc, i) => {
-                                            return (
-                                                <tr>
-                                                    <th scope="row">{i + 1}</th>
-                                                    <td>{doc._id}</td>
-                                                    <td>{doc.time}</td>
-                                                    <td>{doc.date}</td>
-                                                    <td>{doc.drId}</td>
-
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+  const [AllDr, setAllDr] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    axios
+      .get("http://localhost:7000/appointments/get")
+      .then((response) => {
+        setAllDr(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error : ", error);
+      });
+  }, []);
+  const handleAction = (e) => {};
+  return (
+    <>
+      <div className="container">
+        <div className="row my-3 cart">
+          <div className="col">
+            <div className="table-responsive border">
+              <table className="table table-hover align-middle align-middle">
+                <thead className="table-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    {/* <th scope="col">ID</th> */}
+                    <th scope="col">Time</th>
+                    <th scope="col">DATE</th>
+                    <th scope="col">DR ID</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {AllDr.map((doc, i) => {
+                    return (
+                      <tr>
+                        <th scope="row">{i + 1}</th>
+                        {/* <td>{doc._id}</td> */}
+                        <td>{doc.time}</td>
+                        <td>{doc.date}</td>
+                        <td>{doc.drId}</td>
+                        <td>
+                          <button
+                            className="btn btn-sm btn-warning text-white m-2 "
+                            onClick={handleAction}
+                          >
+                            Confirm
+                          </button>
+                          <button
+                            className="btn btn-sm btn-warning text-white m-2 "
+                            onClick={handleAction}
+                          >
+                            Decline
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-            {/* 
+          </div>
+        </div>
+      </div>
+      {/* 
       <div className="container paginat position-absolute bottom-0 end-0">
         <div className="row">
           <div className="col">
@@ -75,8 +87,6 @@ export default function Doctors() {
           </div>
         </div>
       </div> */}
-        </>
-
-
-    )
+    </>
+  );
 }

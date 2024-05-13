@@ -1,13 +1,15 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import del from "../../../assets/images/icons/deleteIcon/svg/bin.svg";
+import edit from "../../../assets/images/icons/update/svg/edit.svg";
 
 export default function Doctors() {
-  const [AllDr, setAllDr] = useState([])
+  const [AllDr, setAllDr] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     axios
-      .get("http://localhost:7000/doctor/doctors")
+      .get("http://localhost:7000/doctors/get")
       .then((response) => {
         setAllDr(response.data);
         setIsLoading(false);
@@ -15,50 +17,77 @@ export default function Doctors() {
       .catch((error) => {
         console.error("Error : ", error);
       });
-
   }, []);
+  const deleteDr = (id) => {
+    axios
+      .delete(`http://localhost:7000/doctors/${id}`)
+      .then((response) => {})
+      .catch((error) => {});
+  };
   return (
     <>
       <div className="container">
         <div className="row">
           <div className="col">
-            <span className='fs-2 fw-medium'> Doctors </span>
-            <Link to={"/dashboard/Adddr"} className="btn btn-primery float-end btn btn-warning text-white">Add Doctor</Link>
+            <span className="fs-2 fw-medium"> Doctors </span>
+            <Link
+              to={"/dashboard/Adddr"}
+              className="btn btn-primery float-end btn btn-warning text-white"
+            >
+              Add Doctor
+            </Link>
           </div>
         </div>
-
 
         <div className="row my-3 cart">
           <div className="col">
             <div className="table-responsive border">
               <table className="table table-hover align-middle align-middle">
-                <thead className='table-dark'>
+                <thead className="table-dark">
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Phone No</th>
-                    <th scope="col">mail</th>
-                    <th scope="col">speciallization</th>
-                    <th scope="col">education</th>
-                    <th scope="col">fee</th>
+                    <th scope="col">Mail</th>
+                    <th scope="col">Speciallization</th>
+                    <th scope="col">Education</th>
+                    <th scope="col">Fee</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {
-                    AllDr.map((dr, i) => {
-                      return (
-                        <tr>
-                          <th scope="row">{i+1}</th>
-                          <td>{dr.name}</td>
-                          <td>{dr.phone}</td>
-                          <td>{dr.email}</td>
-                          <td>{dr.speciallization}</td>
-                          <td>{dr.education}</td>
-                          <td>$ {dr.fee}</td>
-                        </tr>
-                      )
-                    })
-                  }
+                  {AllDr.map((dr, i) => {
+                    return (
+                      <tr>
+                        <th scope="row">{i + 1}</th>
+                        <td>{dr.name}</td>
+                        <td>{dr.phone}</td>
+                        <td>{dr.email}</td>
+                        <td>{dr.speciallization}</td>
+                        <td>{dr.education}</td>
+                        <td>$ {dr.fee}</td>
+                        <td>
+                          <div style={{ justifyContent: "space-between" }}>
+                            <Link to={"/dashboard/Adddr"}>
+                              <img
+                                src={edit}
+                                alt="edit"
+                                style={{ marginRight: "10px" }}
+                                onClick={() =>
+                                  (window.location.href = `/dashboard/Adddr`)
+                                }
+                              />
+                            </Link>
+                            <img
+                              src={del}
+                              alt="del"
+                              onClick={() => deleteDr(dr._id)}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -87,7 +116,5 @@ export default function Doctors() {
         </div>
       </div> */}
     </>
-
-
-  )
+  );
 }
