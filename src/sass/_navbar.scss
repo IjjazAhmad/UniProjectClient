@@ -1,8 +1,8 @@
 header {
     font-family: 'Poppins', sans-serif !important;
-    padding: 20px 0px;
-
+    
     nav {
+        // padding: 20px 0px !important;
         .navbar-brand {
             img {
                 width: 150px;
@@ -29,6 +29,8 @@ header {
 
         .btn-outline-primary:hover {
             color: $white;
+            border: 2px solid $primary;
+            background-color: $primary !important;
         }
     }
 }

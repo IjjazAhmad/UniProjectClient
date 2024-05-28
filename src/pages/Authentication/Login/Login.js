@@ -1,47 +1,82 @@
+// import React, { useState } from "react";
+// import { Link } from "react-router-dom";
+// import { images } from "../../../assets/images/index";
+// // import axios from "axios";
+// // import { jwtDecode } from "jwt-decode";
+// // import { useAuthContext } from "../../Contaxt/AuthContaxt";
+// // import toast from "react-hot-toast";
+// import Loader from "../../../components/Loader/Loader";
+// import { useDispatch } from "react-redux";
+// import { signInUser } from "../../../stor/slices/authentication";
+// const InitialState = {
+//   email: "",
+//   password: "",
+// };
+
+// export default function Login() {
+//   // const { dispatch } = useAuthContext();
+//   const { dispatch } = useDispatch()
+//   const [state, setState] = useState(InitialState);
+//   const [loading, setLoading] = useState(false);
+//   const handleChange = (e) => {
+//     setState({ ...state, [e.target.name]: e.target.value });
+//   };
+//   const handleLogin = async (state) => {
+//     try {
+//       setLoading(true);
+//       // const res = await axios.post("http://localhost:7000/auth/login", state);
+//       // const email = res.data.user.email;
+//       // const role = res.data.user.role;
+//       await dispatch(signInUser(state));
+//       // toast.success("User successfuly Loggedin!!");
+//       setLoading(false);
+//       setState(InitialState);
+//     } catch (error) {
+//       setLoading(false);
+//       console.error("Error during login:", error);
+//     }
+//   };
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Await, Link, useNavigate } from "react-router-dom";
 import { images } from "../../../assets/images/index";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import { useAuthContext } from "../../Contaxt/AuthContaxt";
-const formDataInitialState = {
+import Loader from "../../../components/Loader/Loader";
+import { useDispatch } from "react-redux";
+import { signInUser } from "../../../stor/slices/authentication";
+
+const InitialState = {
   email: "",
   password: "",
 };
 
 export default function Login() {
-  const { dispatch } = useAuthContext();
-  const [formData, setFormData] = useState(formDataInitialState);
-  const [isRegister, setIsRegister] = useState(false);
-  const [tokenValue, setTokenValue] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const [state, setState] = useState(InitialState);
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = () => {
-    axios
-      .post("http://localhost:7000/auth/login", formData)
-      .then((res) => {
-        alert("User successfuly Loggedin!!");
-        setIsRegister(false);
-        setFormData(formDataInitialState);
-        // let data = jwtDecode(res.data.token.id)
-        // console.log("🚀 ~ file: Login.js:32 ~ .then ~ data:", data)
-        // console.log("Token Payload : ", jwtDecode(res.data.token.id));
-        // console.log("Token Payload : ", jwtDecode(res.data.token.email)); 
-        dispatch({ type: "LOGIN", payload: { user: jwtDecode(res.data.token.email) } })
-      })
-      .catch((error) => {
-      });
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+      await dispatch(signInUser(state));
+      setLoading(false);
+      setState(InitialState);
+      navigate("/")
+    } catch (error) {
+      setLoading(false);
+      console.error("Error during login:", error);
+    }
   };
-
   return (
     <>
       <div className="container mt-5">
         <div className="row my-3">
           <div className="col">
             <div className="d-flex justify-content-center">
-              <img src={images.logo} alt="logo" style={{ width: "10rem" }} />
+             <h3>HC&EP</h3>
             </div>
           </div>
         </div>
@@ -67,6 +102,7 @@ export default function Login() {
                       className="form-control rounded-pill text-secondary"
                       id="email"
                       placeholder="Enter email"
+                      value={state.email}
                     />
                   </div>
                 </div>
@@ -84,6 +120,7 @@ export default function Login() {
                       id="password"
                       placeholder="Enter password"
                       name="password"
+                      value={state.password}
                     />
                   </div>
                 </div>
@@ -121,12 +158,16 @@ export default function Login() {
               </div>
               <div className="row justify-content-center mb-3">
                 <div className="col-12 col-md-8 col-lg-8">
-                  <Link
-                    onClick={handleLogin}
-                    className="btn btn-primary text-white rounded-pill button1 w-100"
-                  >
-                    LOGIN
-                  </Link>
+                  {loading ? (
+                    <Loader />
+                  ) : (
+                    <button
+                      onClick={handleLogin}
+                      className="btn btn-primary text-white rounded-pill button1 w-100"
+                    >
+                      LOGIN
+                    </button>
+                  )}
                 </div>
               </div>
               <div className="row justify-content-center">

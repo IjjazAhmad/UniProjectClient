@@ -1,8 +1,8 @@
 import React from 'react'
-import Appointments from './Appointments'
+import Patients from './Patients'
 
 export default function index() {
   return (
-    <Appointments/>
+    <Patients/>
   )
 }

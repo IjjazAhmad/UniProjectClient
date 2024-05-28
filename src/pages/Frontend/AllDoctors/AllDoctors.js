@@ -1,54 +1,59 @@
-import React, { useEffect, useState } from 'react'
-import DoctorCard from '../../../components/Card/DoctorCard'
-import { DocImg } from '../../../assets/images/doctorCard'
-import { Link, useParams } from 'react-router-dom'
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import DoctorCard from "../../../components/Card/DoctorCard";
+import { DocImg } from "../../../assets/images/doctorCard";
+import spinner from "../../../assets/images/spinning-dots.svg";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDoctors } from "../../../stor/slices/doctor";
 export default function AllDoctors() {
-  const {doctorid} = useParams()
-  const [AllDr, setAllDr] = useState([])
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    axios
-      .get("http://localhost:7000/doctors/get")
-      .then((response) => {
-        const doctorData = response.data
-        setAllDr(doctorData);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error : ", error);
-      });
+  const dispatch = useDispatch();
+  const { doctors, isLoading, isError } = useSelector((state)=> state.doctor);
 
-  }, []);
+  useEffect(() => {
+    dispatch(fetchDoctors());
+  }, [dispatch]);
   return (
     <div className="doctorSection">
       <div className="container ">
         <div className="row justify-content-center">
           <div className="col-12 col-md-8 col-lg-8 text-center">
-            <h4 >Meet Our Excellent Doctor</h4>
-            <p className='w-75 '>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
+            <h4>Meet Our Excellent Doctor</h4>
+            <p className="w-75 ">
+            Connect with top-tier healthcare professionals through our platform, offering personalized consultations and expert medical advice. 
+            </p>
           </div>
         </div>
       </div>
       <div className="container my-5">
-        <div className="row">
-          {AllDr.map((dr , i )=>{
-            return <div className="col-12 col-md-6 col-lg-4 mb-3" key={i}>
-              <DoctorCard Image={DocImg.docter1} name={dr.name} category={dr.category} bookUrl={`/${dr._id}`}/>
+        {isLoading ? (
+          <div className="row">
+            <div className="col-6 mx-auto">
+              <img src={spinner} alt=".." />
             </div>
-          })}
-          {/* <div className="col-12 col-md-6 col-lg-4 mb-3">
-            <DoctorCard Image={DocImg.docter1} name="Camilla Wasif" category="Oncologist" bookUrl={`/${doctorid}`}/>
           </div>
-          <div className="col-12 col-md-6 col-lg-4 mb-3">
-            <DoctorCard Image={DocImg.docter2} name="Kristin Watson" category="Cardiologist" bookUrl={`/${doctorid}`}/>
+        ) : (
+          <div className="row">
+            {doctors.map((dr, i) => {
+              if (dr.role != "user") {
+
+                return (
+                  <div className="col-12 col-md-6 col-lg-4 mb-3" key={i}>
+                  <DoctorCard
+                    Image={DocImg.docter1}
+                    name={`${dr.firstName} ${dr.lastName}`}
+                    fee={dr.checkUpFee}
+                    city={dr.city}
+                    bookUrl={`/${dr.userId}`}
+                    speciallization={dr.specialty}
+                    />
+                </div>
+              );
+            }
+            })}
           </div>
-          <div className="col-12 col-md-6 col-lg-4 mb-3">
-            <DoctorCard Image={DocImg.docter3} name="Kristin Watson" category="Cardiologist" bookUrl={`/${doctorid}`}/>
-          </div> */}
-        </div>
+        )}
       </div>
     </div>
-
-  )
+  );
 }

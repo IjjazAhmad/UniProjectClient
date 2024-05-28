@@ -1,8 +1,8 @@
 import React from 'react'
-import AddDr from './AddDr'
+import DoctorProfile from './DoctorProfile'
 
 export default function index() {
   return (
-    <AddDr/>
+    <DoctorProfile/>
   )
 }

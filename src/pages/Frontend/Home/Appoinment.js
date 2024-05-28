@@ -1,10 +1,11 @@
 import React from 'react'
 import { appoinmentImg } from '../../../assets/images/appointment'
+import { Link } from 'react-router-dom'
 export default function Appoinment() {
     return (
         <>
             <div className="appoinmentSection my-5">
-                <div className="container">
+                <div className="container bg-white">
                     <div className="row">
                         <div className="col-12 col-md-12 col-lg-6 d-none d-sm-block">
                             <div className="sideImg">
@@ -56,7 +57,7 @@ export default function Appoinment() {
                                 </div>
                                 <div className="row">
                                     <div className="col my-5 text-center">
-                                        <button type="button" className="btn btn-secondary rounded-pill me-4 px-5 button1">BOOK APPOINMENT TODAY</button>
+                                        <Link to={"/alldoctors"} className="btn btn-secondary rounded-pill me-4 px-5 button1">BOOK APPOINMENT TODAY</Link>
                                     </div>
                                 </div>
                             </div>
