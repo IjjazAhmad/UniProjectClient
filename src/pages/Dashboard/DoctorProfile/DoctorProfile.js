@@ -37,7 +37,6 @@ const initialState = {
 };
 export default function DoctorProfile() {
   const doctor = useSelector((state) => state.doctor.doctor.doctor);
-  console.log("🚀 ~ DoctorProfile ~ doctor:", doctor);
   const [singleDr, setSingleDr] = useState(initialState);
   const [loadingData, setLoadingData] = useState(true);
   const dispatch = useDispatch();
@@ -108,6 +107,7 @@ export default function DoctorProfile() {
                     </span>
                   </p>
                 </div>
+                <button className="btn btn-primary">Add availability</button>
               </div>
             </div>
             <div className="col-12 col-md-6 col-lg-6 d-flex ">

@@ -50,7 +50,7 @@ const InitialState = {
 
 export default function Login() {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [state, setState] = useState(InitialState);
   const [loading, setLoading] = useState(false);
 
@@ -61,10 +61,15 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       setLoading(true);
-      await dispatch(signInUser(state));
+      const response = await dispatch(signInUser(state));
+      console.log("🚀 ~ handleLogin ~ response:", response);
+      if (response.type === "signIn/signIn/rejected") {
+        setLoading(false);
+        return navigate("/auth/login");
+      }
       setLoading(false);
       setState(InitialState);
-      navigate("/")
+      navigate("/");
     } catch (error) {
       setLoading(false);
       console.error("Error during login:", error);
@@ -76,7 +81,7 @@ export default function Login() {
         <div className="row my-3">
           <div className="col">
             <div className="d-flex justify-content-center">
-             <h3>HC&EP</h3>
+              <h3>HC&EP</h3>
             </div>
           </div>
         </div>

@@ -68,58 +68,7 @@ export default function BookDr() {
       toast.error("Doctors Not Found");
       setLoadingData(false);
     }
-  }, []);
-  const handleChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-  };
-
-  // -------------------------------
-  const handleBooking = () => {
-    const {
-      patientName,
-      patientAge,
-      patientCNIC,
-      patientPhoneNo,
-      address,
-      date,
-      time,
-    } = state;
-    const drName = singleDr.name;
-    const drId = doctorid;
-    if (
-      !patientName ||
-      !patientAge ||
-      !patientCNIC ||
-      !patientPhoneNo ||
-      !address ||
-      !date ||
-      !time ||
-      !drName ||
-      !drId
-    ) {
-      return toast.error("Please fill all inputs");
-    }
-    try {
-      setLoading(true);
-
-      const response = axios.post("http://localhost:7000/patients/post", {
-        patientName,
-        patientAge,
-        patientCNIC,
-        patientPhoneNo,
-        address,
-        date,
-        time,
-        drName,
-        drId,
-      });
-      setState(initialValue);
-      setLoading(false);
-      toast.success("Booking Successful");
-    } catch (error) {
-      toast.error("Error! Please Try agian");
-    }
-  };
+  }, [loading]);
 
   return (
     <>
@@ -174,26 +123,26 @@ export default function BookDr() {
                     </span>
                   </div>
                   <div className="list mt-3">
-                  <ol>
-                    <li>
-                      Previous Surgeries
-                      <ul>
-                        <li>{singleDr.previousSurgeries}</li>
-                      </ul>
-                    </li>
-                    <li>
-                      Publications
-                      <ul>
-                        <li>{singleDr.publications}</li>
-                      </ul>
-                    </li>
-                    <li>
-                      languagesSpoken
-                      <ul>
-                        <li>{singleDr.languagesSpoken}</li>
-                      </ul>
-                    </li>
-                  </ol>
+                    <ol>
+                      <li>
+                        Previous Surgeries
+                        <ul>
+                          <li>{singleDr.previousSurgeries}</li>
+                        </ul>
+                      </li>
+                      <li>
+                        Publications
+                        <ul>
+                          <li>{singleDr.publications}</li>
+                        </ul>
+                      </li>
+                      <li>
+                        languagesSpoken
+                        <ul>
+                          <li>{singleDr.languagesSpoken}</li>
+                        </ul>
+                      </li>
+                    </ol>
                   </div>
                   <div className="label mt-5">
                     <span className=" text-white text fs-5">
@@ -202,17 +151,17 @@ export default function BookDr() {
                   </div>
                   <div className="list m-3">
                     <p className="fw-bold">Medical School</p>
-                  <p>{singleDr.medicalSchool}</p>
-                  <p className="fw-bold">Graduation Year</p>
-                  <p>{singleDr.graduationYear}</p>
-                  <p className="fw-bold">Certifications</p>
-                  <p>{singleDr.certifications}</p>
-                  <p className="fw-bold">Medical LicenseNumber</p>
-                  <p>{singleDr.medicalLicenseNumber}</p>
-                  <p className="fw-bold">Professional Affiliations</p>
-                  <p>{singleDr.professionalAffiliations}</p>
-                  <p className="fw-bold">Previous Employment</p>
-                  <p>{singleDr.previousEmployment}</p>
+                    <p>{singleDr.medicalSchool}</p>
+                    <p className="fw-bold">Graduation Year</p>
+                    <p>{singleDr.graduationYear}</p>
+                    <p className="fw-bold">Certifications</p>
+                    <p>{singleDr.certifications}</p>
+                    <p className="fw-bold">Medical LicenseNumber</p>
+                    <p>{singleDr.medicalLicenseNumber}</p>
+                    <p className="fw-bold">Professional Affiliations</p>
+                    <p>{singleDr.professionalAffiliations}</p>
+                    <p className="fw-bold">Previous Employment</p>
+                    <p>{singleDr.previousEmployment}</p>
                   </div>
                 </div>
               </div>
@@ -221,8 +170,9 @@ export default function BookDr() {
         </div>
       </div>
       <BookDrModal
-        drId={doctorid}
-        drName={`${singleDr.firstName} ${singleDr.lastName}`}
+        doctor={singleDr}
+        setLoading={setLoading}
+        loading={loading}
       />
     </>
   );

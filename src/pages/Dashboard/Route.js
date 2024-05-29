@@ -6,6 +6,7 @@ import DoctorProfile from "./DoctorProfile/DoctorProfile";
 import DoctorPatients from "./DoctorPatients/DoctorPatients";
 import Patients from "./Patients/Patients";
 import { getLocalUser } from "../../stor/slices/authentication";
+import Availability from "./Availability/Availability";
 // import { useAuthContext } from "../Contaxt/AuthContaxt";
 
 export default function AdminRoutesIndex() {
@@ -25,6 +26,8 @@ export default function AdminRoutesIndex() {
             <>
               <Route path="/doctorprofile" element={<DoctorProfile />} />
               <Route path="/doctorpatients" element={<DoctorPatients />} />
+              <Route path="/availability" element={<Availability />} />
+
             </>
           ) : 
           role === "admin" ? (

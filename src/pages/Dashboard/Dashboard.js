@@ -45,6 +45,13 @@ export default function Dashboard() {
                             <i className="fa-solid fa-file-lines fa-fw me-3"></i>
                             <span>Doctor Patients</span>
                           </Link>
+                          <Link
+                            to={"/dashboard/availability"}
+                            className="list-group-item list-group-item-action py-2 ripple  text-white"
+                          >
+                            <i className="fa-solid fa-file-lines fa-fw me-3"></i>
+                            <span>Set Availability</span>
+                          </Link>
                         </>
                       ) : (
                         <>

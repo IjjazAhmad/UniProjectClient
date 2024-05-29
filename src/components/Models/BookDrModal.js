@@ -3,7 +3,7 @@ import Calendar from "react-calendar";
 import Inputs from "../inputs/Inputs";
 import PatientForm from "../Form/PatientForm";
 
-export default function BookDrModal({ drId, drName }) {
+export default function BookDrModal({ doctor, setLoading, loading }) {
   return (
     <div
       class="modal fade"
@@ -135,7 +135,11 @@ export default function BookDrModal({ drId, drName }) {
                 <div className="row">
                   <div className="col-6"></div>
                 </div> */}
-                <PatientForm drId={ drId} drName={drName}  />
+                <PatientForm
+                  doctor={doctor}
+                  setLoading={setLoading}
+                  loading={loading}
+                />
               </div>
             </div>
           </div>
