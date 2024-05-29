@@ -6,6 +6,7 @@ import DoctorSec from "./DoctorSec";
 import Reviews from "./Reviews";
 import Artical from "./Artical";
 import Footer from "../../../components/Footer/Footer";
+import { ImageUpload } from "../../../components/imageUpload/ImageUpload";
 
 export default function index() {
   return (
@@ -14,6 +15,7 @@ export default function index() {
       {/* <TreatmentSection /> */}
       <Appoinment />
       <DoctorSec />
+      <ImageUpload />
       {/* <Reviews /> */}
       {/* <Artical /> */}
       <Footer />

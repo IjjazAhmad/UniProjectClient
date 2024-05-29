@@ -1,47 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Inputs from '../inputs/Inputs';
-import toast from 'react-hot-toast';
-import axios from 'axios';
-import { doctorFormSchema } from '../../constants/DoctorFromSchema';
-import { readUserProfile } from '../../stor/slices/authentication';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Inputs from "../inputs/Inputs";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { doctorFormSchema } from "../../constants/DoctorFromSchema";
+import { readUserProfile } from "../../stor/slices/authentication";
+import { useDispatch, useSelector } from "react-redux";
+import { ImageUpload } from "../imageUpload/ImageUpload";
 
 const specialties = [
-  'Neurologist',
-  'Dermatologist',
-  'Cardiologist',
-  'Pediatrician',
-  'Orthopedic Surgeon',
-  'General Practitioner',
-  'Psychiatrist',
-  'Ophthalmologist',
-  'Gynecologist',
-  'Anesthesiologist',
+  "Neurologist",
+  "Dermatologist",
+  "Cardiologist",
+  "Pediatrician",
+  "Orthopedic Surgeon",
+  "General Practitioner",
+  "Psychiatrist",
+  "Ophthalmologist",
+  "Gynecologist",
+  "Anesthesiologist",
 ];
 
 const DrForm = () => {
-  const user= useSelector((state)=> state.authentication.user )
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+  const [url, setUrl] = useState();
+  const user = useSelector((state) => state.authentication.user);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
     resolver: zodResolver(doctorFormSchema),
   });
-  const dispatch = useDispatch()
-useEffect(()=>{
-  dispatch(readUserProfile())
-},[dispatch])
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(readUserProfile());
+  }, [dispatch]);
+  const handleUploadSuccess = (url) => {
+    setUrl(url); // Update state with the new URL
+  };
   const onSubmit = async (data) => {
     try {
       const payload = {
         ...data,
         email: user.user.email,
         userId: user.user._id,
-        role:"user",
+        profilePicture: url,
+        role: "user",
       };
-      console.log("🚀 ~ onSubmit ~ payload:", payload)
-     const  response= await axios.post('http://localhost:7000/doctors/post', payload);
-      toast.success('Doctor Application Send successfully');
+      console.log("🚀 ~ onSubmit ~ payload:", payload);
+      const response = await axios.post(
+        "http://localhost:7000/doctors/post",
+        payload
+      );
+      toast.success("Doctor Application Send successfully");
       reset();
     } catch (error) {
       toast.error(error.response.data.message);
@@ -91,14 +104,16 @@ useEffect(()=>{
             <select
               id="gender"
               className="form-control"
-              {...register('gender')}
+              {...register("gender")}
             >
               <option value="">Select Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
             </select>
-            {errors.gender && <span className="text-danger">{errors.gender.message}</span>}
+            {errors.gender && (
+              <span className="text-danger">{errors.gender.message}</span>
+            )}
           </div>
         </div>
         <div className="row">
@@ -135,14 +150,7 @@ useEffect(()=>{
             />
           </div>
           <div className="col-12 col-lg-6">
-            <Inputs
-              label="Profile Picture"
-              name="profilePicture"
-              register={register}
-              errors={errors}
-              type="url"
-              placeholder="Enter Profile Picture URL"
-            />
+            <ImageUpload onUploadSuccess={handleUploadSuccess} />
           </div>
         </div>
         <h2>Professional Information</h2>
@@ -162,7 +170,7 @@ useEffect(()=>{
             <select
               id="specialty"
               className="form-control"
-              {...register('specialty')}
+              {...register("specialty")}
             >
               <option value="">Select Specialty</option>
               {specialties.map((specialty, index) => (
@@ -171,7 +179,9 @@ useEffect(()=>{
                 </option>
               ))}
             </select>
-            {errors.specialty && <span className="text-danger">{errors.specialty.message}</span>}
+            {errors.specialty && (
+              <span className="text-danger">{errors.specialty.message}</span>
+            )}
           </div>
         </div>
         <div className="row">
@@ -349,14 +359,19 @@ useEffect(()=>{
             id="consent"
             className="form-check-input"
             type="checkbox"
-            {...register('consent')}
+            {...register("consent")}
           />
           <label className="form-check-label" htmlFor="consent">
-            I consent to the verification of my information and agree to the terms and conditions.
+            I consent to the verification of my information and agree to the
+            terms and conditions.
           </label>
-          {errors.consent && <span className="text-danger">{errors.consent.message}</span>}
+          {errors.consent && (
+            <span className="text-danger">{errors.consent.message}</span>
+          )}
         </div>
-        <button type="submit" className="btn btn-primary">Register</button>
+        <button type="submit" className="btn btn-primary">
+          Register
+        </button>
       </form>
     </div>
   );
