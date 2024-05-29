@@ -15,7 +15,7 @@ export default function index() {
       {/* <TreatmentSection /> */}
       <Appoinment />
       <DoctorSec />
-      <ImageUpload />
+      {/* <ImageUpload /> */}
       {/* <Reviews /> */}
       {/* <Artical /> */}
       <Footer />

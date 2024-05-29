@@ -85,7 +85,7 @@ export default function BookDr() {
               <div className="col-12 col-md-6 col-lg-6 d-flex ">
                 <div className="div">
                   <div className="img">
-                    <img src={DocImg.docter4} alt="Doctor image." />
+                    <img src={singleDr.profilePicture} alt="Doctor image." />
                   </div>
                   <div className="imgDetail m-4">
                     <h5>

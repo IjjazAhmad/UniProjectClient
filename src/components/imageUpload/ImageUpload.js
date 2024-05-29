@@ -64,20 +64,15 @@ export const ImageUpload = ({ onUploadSuccess }) => {
             onChange={handleImageChange}
             accept="image/*"
           />
-          <label htmlFor="hidden-input" className="cursor-pointer">
-            <div className="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
-              Upload a file
-            </div>
-          </label>
 
-          <div className="flex justify-center items-center mt-5 mx-3 max-w-xs">
-            {preview && <img src={preview} alt="preview" className="w-full" />}
+          <div className="flex justify-center items-center mx-3 max-w-xs">
+            {preview && <img src={preview} alt="preview" className="m-2" style={{  width:"300px", height:"200px" }} />}
           </div>
         </header>
-        <div className="flex justify-end pb-8 pt-6 gap-4">
+        <div className="flex justify-end pb-8 pt-6  m-2">
           <button
             onClick={uploadImage}
-            className="rounded-sm px-3 py-1"
+            className="btn btn-primary"
             disabled={!image}
             style={{ color: "black" }}
           >
@@ -85,7 +80,7 @@ export const ImageUpload = ({ onUploadSuccess }) => {
           </button>
           <button
             onClick={handleResetClick}
-            className="rounded-sm px-3 py-1 bg-red-700 hover:bg-red-500 text-white focus:shadow-outline focus:outline-none"
+            className="btn btn-danger  m-2"
           >
             Reset
           </button>

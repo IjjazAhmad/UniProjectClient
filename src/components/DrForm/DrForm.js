@@ -40,7 +40,11 @@ const DrForm = () => {
   const handleUploadSuccess = (url) => {
     setUrl(url); // Update state with the new URL
   };
+  console.log("🚀 ~ onSubmit ~ url:", url)
   const onSubmit = async (data) => {
+    if(!url){
+      return toast.error("upload image again")
+    }
     try {
       const payload = {
         ...data,

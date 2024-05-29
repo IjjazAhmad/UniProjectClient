@@ -40,7 +40,7 @@ export default function AllDoctors() {
                 return (
                   <div className="col-12 col-md-6 col-lg-4 mb-3" key={i}>
                   <DoctorCard
-                    Image={DocImg.docter1}
+                    Image={dr.profilePicture}
                     name={`${dr.firstName} ${dr.lastName}`}
                     fee={dr.checkUpFee}
                     city={dr.city}

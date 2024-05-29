@@ -8,7 +8,6 @@ export const doctorFormSchema = z.object({
   phoneNumber: z.string().regex(/^\d{12}$/, 'Phone number must be exactly 12 digits'),
   address: z.string().min(1, 'Address is required'),
   city: z.string().min(1, 'city is required'),
-  profilePicture: z.string().url('Invalid URL'),
   medicalLicenseNumber: z.string().min(1, 'Medical License Number is required'),
   specialty: z.string().min(1, 'Specialty is required'),
   yearsOfExperience: z.string().min(0, 'Years of Experience is required'),
